@@ -3,9 +3,9 @@ message: "If you use this software, please cite it as below."
 authors:
   - family-names: Pin
     given-names: Lukas
-title: "Code for Deming Book Chapter Response-Adaptive
+title: "Code for Deming Book Chapter on Response-Adaptive
   Randomization Designs based on Optimal Allocation
-  Proportions by Pin, Villar and Rosenberger"
+  Proportions"
 url: https://github.com/lukaspinpin/OptimalRAR.git
 version: 1.0.0
 date-released: 2024-01-30
