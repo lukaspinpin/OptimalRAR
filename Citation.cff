@@ -3,7 +3,9 @@ message: "If you use this software, please cite it as below."
 authors:
   - family-names: Pin
     given-names: Lukas
-title: "Code for Deming Book"
+title: "Code for Deming Book Chapter Response-Adaptive
+  Randomization Designs based on Optimal Allocation
+  Proportions by Pin, Villar and Rosenberger"
 version: 1.0.0
 identifiers:
   - type: doi
