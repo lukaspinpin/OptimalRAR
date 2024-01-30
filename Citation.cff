@@ -6,8 +6,6 @@ authors:
 title: "Code for Deming Book Chapter Response-Adaptive
   Randomization Designs based on Optimal Allocation
   Proportions by Pin, Villar and Rosenberger"
+url: https://github.com/lukaspinpin/OptimalRAR.git
 version: 1.0.0
-identifiers:
-  - type: doi
-    value: 
 date-released: 2024-30-01
