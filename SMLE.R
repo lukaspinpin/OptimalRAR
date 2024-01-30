@@ -64,29 +64,6 @@ two_arm_SMLE <- function(N=200, dist="bern",  par1 = c(0,0), par2 = NULL, measur
         p = 1-rho1.hat
       }
     }
-    if(ar=="R_maxMR"){
-      if(dist=="bern") {
-        s1 = sum(X[A==1], na.rm = TRUE)
-        p1.hat = (s1)/(n1)
-        s2 = sum(X[A==2], na.rm = TRUE)
-        p2.hat = (s2)/(n2)
-        if((sqrt(1-p1.hat) + sqrt(1-p2.hat)) == 0){
-          p = 0.5
-        } else {
-          p = sqrt(1-p1.hat)/(sqrt(1-p1.hat) + sqrt(1-p2.hat))
-        }
-      } else {
-        mu1 <- mean(X[A==1], na.rm = TRUE)
-        mu2 <- mean(X[A==2], na.rm = TRUE)
-        sig1_N <- sd(X[A==1], na.rm = TRUE)
-        sig2_N <- sd(X[A==2], na.rm = TRUE)
-        if(mu1<=0 || mu2<=0 || sig1_N+sig2_N==0){
-          p <- 0.5
-        } else {
-          p <- sqrt(mu1)*sig2_N/(sqrt(mu2)*sig1_N+sqrt(mu1)*sig2_N)
-        }
-      }
-    }
     if(ar=="Neyman"){
       if(measure=="sd"){
         sig1_N <- sd(X[A==1], na.rm = TRUE)
