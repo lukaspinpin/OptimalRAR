@@ -130,23 +130,23 @@ simulation <- function(N=200, dist="bern", K=1, par1 = c(0,0),  par2 = NULL, bur
       result[,1:(length(colnames))] <- result.ER
     }
     ############## Sequential ######################################################
-    if(method == "SEQ_R_minF"){  ### change
+    if(method == "SMLE_R_minF"){  ### change
       result_part_emp <- data.frame(matrix(ncol = length(colnames), nrow = 0))
-      result.SEQ_R <- foreach(i = 1:length(par1[,1]), .combine='rbind', .packages=c("BSDA", "rankFD")) %dorng% { #%dorng% 
-        source('SEQ.R')
+      result.SMLE_R <- foreach(i = 1:length(par1[,1]), .combine='rbind', .packages=c("BSDA", "rankFD")) %dorng% { #%dorng% 
+        source('SMLE.R')
         result_part <-result_part_emp
         p <- as.numeric(par1[i,])
         start <- length(p)
         result_part[1,1:start] <- p
-        sim.SEQ_R <- sim_SEQ(N=N, dist=dist, K=1, par1 = p,  nsim=nsim, measure=measure, ar=ar, burnin=burnin)
-        result_part[1,(start+1)] <- mean(sim.SEQ_R[,5]); result_part[1,(start+2)] <- var(sim.SEQ_R[,5]) 
-        result_part[1,(start+3)] <- mean(sim.SEQ_R[,6]); result_part[1,(start+4)] <- var(sim.SEQ_R[,6]) 
+        sim.SMLE_R <- sim_SMLE(N=N, dist=dist, K=1, par1 = p,  nsim=nsim, measure=measure, ar=ar, burnin=burnin)
+        result_part[1,(start+1)] <- mean(sim.SMLE_R[,5]); result_part[1,(start+2)] <- var(sim.SMLE_R[,5]) 
+        result_part[1,(start+3)] <- mean(sim.SMLE_R[,6]); result_part[1,(start+4)] <- var(sim.SMLE_R[,6]) 
         
-        result_part[1,(start+5)] <- mean(sim.SEQ_R[,1])
-        result_part[1,(start+6)] <- var(sim.SEQ_R[,1])
+        result_part[1,(start+5)] <- mean(sim.SMLE_R[,1])
+        result_part[1,(start+6)] <- var(sim.SMLE_R[,1])
         
-        reject_Z <-  sum(sim.SEQ_R[,2] < 0.05)
-        reject_BM <- sum(sim.SEQ_R[,3] < 0.05)
+        reject_Z <-  sum(sim.SMLE_R[,2] < 0.05)
+        reject_BM <- sum(sim.SMLE_R[,3] < 0.05)
         
         if(p[1]==p[2]){
           result_part[1,(start+7)] <- reject_Z/nsim
@@ -158,41 +158,41 @@ simulation <- function(N=200, dist="bern", K=1, par1 = c(0,0),  par2 = NULL, bur
         result_part[1,(start+9)] <- reject_Z/nsim
         result_part[1,(start+10)] <- reject_BM/nsim
         
-        result_part[1,(start+11)] <- mean(sim.SEQ_R[,4])
-        result_part[1,(start+12)] <- var(sim.SEQ_R[,4])
+        result_part[1,(start+11)] <- mean(sim.SMLE_R[,4])
+        result_part[1,(start+12)] <- var(sim.SMLE_R[,4])
         
         result_part[1,(start+13)] <- 1- sqrt(p[1])/(sqrt(p[1]) + sqrt(p[2]))
 
-        result_part[1,(start+14)] <- mean(sim.SEQ_R[,7]) - result_part[1,(start+13)]
+        result_part[1,(start+14)] <- mean(sim.SMLE_R[,7]) - result_part[1,(start+13)]
         result_part
       }
-      result[,1:(length(colnames))] <- result.SEQ_R 
+      result[,1:(length(colnames))] <- result.SMLE_R 
     }
-    if(method == "SEQ_Neyman"){
+    if(method == "SMLE_Neyman"){
       result_part_emp <- data.frame(matrix(ncol = length(colnames), nrow = 0))
-      result.SEQ_Neyman <- foreach(i = 1:length(par1[,1]), .combine='rbind', .packages=c("BSDA", "rankFD")) %dorng% { #%dorng% 
-        source('SEQ.R')
+      result.SMLE_Neyman <- foreach(i = 1:length(par1[,1]), .combine='rbind', .packages=c("BSDA", "rankFD")) %dorng% { #%dorng% 
+        source('SMLE.R')
         result_part <-result_part_emp
         p <- as.numeric(par1[i,])
         var <- as.numeric(variance[i,])
         if(dist=="norm") {
           std <- as.numeric(par2[i,])
           start <- length(c(p,std))
-          sim.SEQ_Neyman <- sim_SEQ(N=N, dist=dist, K=1, par1 = p, par2 = std,  nsim=nsim, ar=ar, burnin=burnin)
+          sim.SMLE_Neyman <- sim_SMLE(N=N, dist=dist, K=1, par1 = p, par2 = std,  nsim=nsim, ar=ar, burnin=burnin)
           result_part[1,1:start] <- c(p,std)
         } else {
           start <- length(p)
-          sim.SEQ_Neyman <- sim_SEQ(N=N, dist=dist, K=1, par1 = p,  measure=measure, nsim=nsim, ar=ar, burnin=burnin)
+          sim.SMLE_Neyman <- sim_SMLE(N=N, dist=dist, K=1, par1 = p,  measure=measure, nsim=nsim, ar=ar, burnin=burnin)
           result_part[1,1:start] <- p
         }
-        result_part[1,(start+1)] <- mean(sim.SEQ_Neyman[,5]); result_part[1,(start+2)] <- var(sim.SEQ_Neyman[,5]) 
-        result_part[1,(start+3)] <- mean(sim.SEQ_Neyman[,6]); result_part[1,(start+4)] <- var(sim.SEQ_Neyman[,6]) 
+        result_part[1,(start+1)] <- mean(sim.SMLE_Neyman[,5]); result_part[1,(start+2)] <- var(sim.SMLE_Neyman[,5]) 
+        result_part[1,(start+3)] <- mean(sim.SMLE_Neyman[,6]); result_part[1,(start+4)] <- var(sim.SMLE_Neyman[,6]) 
         
-        result_part[1,(start+5)] <- mean(sim.SEQ_Neyman[,1])
-        result_part[1,(start+6)] <- var(sim.SEQ_Neyman[,1])
+        result_part[1,(start+5)] <- mean(sim.SMLE_Neyman[,1])
+        result_part[1,(start+6)] <- var(sim.SMLE_Neyman[,1])
         
-        reject_Z <-  sum(sim.SEQ_Neyman[,2] < 0.05)
-        reject_BM <- sum(sim.SEQ_Neyman[,3] < 0.05)
+        reject_Z <-  sum(sim.SMLE_Neyman[,2] < 0.05)
+        reject_BM <- sum(sim.SMLE_Neyman[,3] < 0.05)
         
         if(p[1]==p[2]){
           result_part[1,(start+7)] <- reject_Z/nsim
@@ -204,16 +204,16 @@ simulation <- function(N=200, dist="bern", K=1, par1 = c(0,0),  par2 = NULL, bur
         result_part[1,(start+9)] <- reject_Z/nsim
         result_part[1,(start+10)] <- reject_BM/nsim
         
-        result_part[1,(start+11)] <- mean(sim.SEQ_Neyman[,4])
-        result_part[1,(start+12)] <- var(sim.SEQ_Neyman[,4])
+        result_part[1,(start+11)] <- mean(sim.SMLE_Neyman[,4])
+        result_part[1,(start+12)] <- var(sim.SMLE_Neyman[,4])
         
         result_part[1,(start+13)] <- 1 - var[1]/(var[1]+var[2])
-        result_part[1,(start+14)] <- mean(sim.SEQ_Neyman[,7]) - result_part[1,(start+13)]
+        result_part[1,(start+14)] <- mean(sim.SMLE_Neyman[,7]) - result_part[1,(start+13)]
         
         result_part
         
       }
-      result[,1:(length(colnames))] <- result.SEQ_Neyman 
+      result[,1:(length(colnames))] <- result.SMLE_Neyman 
     }
     if( method == "ERADE"){
       result_part_emp <- data.frame(matrix(ncol = length(colnames), nrow = 0))
@@ -355,8 +355,8 @@ for(i in 1:dim(param_list)[1]){
   nsim = 5*10^4 # or 10^4!
   if(param_list[i,]$Distributions=="bern") {
     simulation(N=param_list[i,]$N, dist=param_list[i,]$Distributions, K=1, par1 = par1_Ber, burnin=N/2, nsim=nsim, method = "ER", measure = "lrr") #10^4
-    simulation(N=param_list[i,]$N, dist=param_list[i,]$Distributions, K=1, burnin=burn, par1 = par1_Ber, nsim=nsim, method = "SEQ_R_minF", ar="R_minF", measure = "lrr")
-    simulation(N=param_list[i,]$N, dist=param_list[i,]$Distributions, K=1, burnin=burn, par1 = par1_Ber, nsim=nsim, method = "SEQ_Neyman", ar="Neyman", measure = "lrr") #10^4
+    simulation(N=param_list[i,]$N, dist=param_list[i,]$Distributions, K=1, burnin=burn, par1 = par1_Ber, nsim=nsim, method = "SMLE_R_minF", ar="R_minF", measure = "lrr")
+    simulation(N=param_list[i,]$N, dist=param_list[i,]$Distributions, K=1, burnin=burn, par1 = par1_Ber, nsim=nsim, method = "SMLE_Neyman", ar="Neyman", measure = "lrr") #10^4
     simulation(N=param_list[i,]$N, dist=param_list[i,]$Distributions, K=1, burnin=burn, par1 = par1_Ber, nsim=nsim, method = "DBCD", ar="R_minF", measure = "lrr") #10^4
     simulation(N=param_list[i,]$N, dist=param_list[i,]$Distributions, K=1, burnin=burn, par1 = par1_Ber, nsim=nsim, method = "DBCD", ar="Neyman", measure = "lrr") #10^4
     simulation(N=param_list[i,]$N, dist=param_list[i,]$Distributions, K=1, burnin=burn, par1 = par1_Ber, nsim=nsim, method = "ERADE", ar="R_minF", measure = "lrr") #10^4
