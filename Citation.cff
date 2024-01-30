@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: Pin
+    given-names: Lukas
+title: "Code for Deming Book"
+version: 1.0.0
+identifiers:
+  - type: doi
+    value: 
+date-released: 2024-30-01
