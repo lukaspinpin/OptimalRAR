@@ -12,7 +12,7 @@ This repository contains the source code used for the simulations presented in t
 
 - `ER.R`: Script for Equal Randomization (ER). To implement restricted randomization and ensure equal sample sizes per arm, set the burn-in period to half of the sample size (`n/2`).
 
-- `SQE.R`: Implements SMLE targeting either Neyman or minF proportions.
+- `SMLE.R`: Implements SMLE targeting either Neyman or minF proportions.
 
 - `DBCD.R`: DBCD also targeting Neyman or minF proportions.
 
