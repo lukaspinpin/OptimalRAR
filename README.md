@@ -22,5 +22,5 @@ This repository contains the source code used for the simulations presented in t
 
 The scripts are designed to be modular and easily customizable. Users can modify the parameters in `Simulation.R` to explore different adaptive randomization strategies and outcomes. For detailed instructions on how to set up and run the simulations, please refer to the comments within each script.
 
-## Erros 
+## Errors 
 If you believe you have identified any errors, please reach out to Lukas Pin at lukas.pin@mrc-bsu.cam.ac.uk.
