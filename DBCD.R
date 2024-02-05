@@ -166,4 +166,4 @@ DBCD = function(rho.hat, alloc.prop, gamma=2){
 
 ###############################################################################
 
-sim_DBCD(N=100, dist="bern", K=1, par1 = c(0.1,0.8), burnin=3, ar="WMW",nsim=10^2)
+sim_DBCD(N=100, dist="bern", K=1, par1 = c(0.941,0.991), burnin=3, ar="R_minF",nsim=10^2, measure="sd")
